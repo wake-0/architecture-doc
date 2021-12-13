@@ -36,8 +36,7 @@ public class ArchitectureTest {
                         .should()
                         .bePackagePrivate();
 
-        ArchCondition<JavaClass> implementServiceInterface = new ArchCondition<JavaClass>(
-                        "implement *Service interface") {
+        ArchCondition<JavaClass> implementServiceInterface = new ArchCondition<JavaClass>("implement *Service interface") {
                 @Override
                 public void check(JavaClass item, ConditionEvents events) {
                         final String className = item.getSimpleName();
@@ -45,12 +44,10 @@ public class ArchitectureTest {
                         final boolean implementsOwnInterface = item.getAllRawInterfaces()
                                         .stream()
                                         .map(JavaClass::getSimpleName)
-                                        .anyMatch(implementedInterface -> implementedInterface
-                                                        .equals(expectedInterfaceName));
+                                        .anyMatch(implementedInterface -> implementedInterface.equals(expectedInterfaceName));
 
                         if (!implementsOwnInterface) {
-                                String message = String.format("Class %s does not implement *Service interface",
-                                                className);
+                                String message = String.format("Class %s does not implement *Service interface", className);
                                 events.add(SimpleConditionEvent.violated(item, message));
                         }
                 }
